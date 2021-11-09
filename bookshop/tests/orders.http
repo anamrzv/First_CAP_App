@@ -1,0 +1,18 @@
+### List all Orders - deep read
+GET http://localhost:65315/admin/Orders?
+&$expand=Items
+
+### Without Items
+GET http://localhost:65315/admin/Orders
+
+### Submit Orders - deep insert
+POST http://localhost:65315/browse/Orders
+Content-Type: application/json
+
+{ "OrderNo":"1234", "Items":[
+    { "book_ID":201, "amount":5 },
+    { "book_ID":207, "amount":3 }
+]}
+
+### Try to get the Orders. Fail bc Orders is @insertonly
+GET http://localhost:65315/browse/Orders

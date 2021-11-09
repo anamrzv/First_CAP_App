@@ -3,7 +3,7 @@ namespace sap.capire.products;
 using { Currency, managed, sap.common.CodeList } from '@sap/cds/common';
 
 entity Products : managed {
-  key ID   : String;
+  key ID   : Integer;
   title    : localized String(111);
   descr    : localized String(1111);
   stock    : Integer;

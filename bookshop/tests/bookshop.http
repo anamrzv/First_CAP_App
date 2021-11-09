@@ -1,0 +1,14 @@
+### Browse Books (doesnt show full info about authors bc no @
+GET http://localhost:65315/browse/Books
+
+### Browse Books with expanded Authors
+GET http://localhost:65315/browse/Books?$expand=author
+
+### Try to insert into Books. Fail because books are @readonly
+POST http://localhost:65315/browse/Books
+Content-Type: application/json
+
+{ 
+    "title": "Anna Karenina",
+    "stock": 10
+}

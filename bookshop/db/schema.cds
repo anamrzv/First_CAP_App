@@ -10,6 +10,7 @@ entity Magazines : Products, additionalInfo {
   publisher : String(100);
 }
 
+@cds.autoexpose
 entity Authors : managed {
   key ID   : Integer;
   name     : String(111);
@@ -23,12 +24,15 @@ entity Authors : managed {
 entity Orders : managed, cuid {
   OrderNo  : String @title:'Order Number'; //> readable key
   Items    : Composition of many OrderItems on Items.parent = $self;
+  total    : Decimal(9,2) @readonly;
+  currency : Currency;
 }
 
 entity OrderItems : cuid {
   parent   : Association to Orders;
   book     : Association to Books;
   amount   : Integer;
+  netAmount: Decimal(9,2);
 }
 
 entity Movies : additionalInfo {
