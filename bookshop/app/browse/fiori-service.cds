@@ -15,6 +15,7 @@ annotate CatalogService.Books with @(
 		Facets: [
 			{$Type: 'UI.ReferenceFacet', Label: '{i18n>Details}', Target: '@UI.FieldGroup#Price'},
 		],
+		//see it when click on header of object in a row
 		FieldGroup#Descr: {
 			Data: [
 				{Value: descr},
@@ -36,8 +37,8 @@ annotate CatalogService.Books with @(
 //
 annotate CatalogService.Books with @(
 	UI: {
-	  SelectionFields: [ ID, price, currency_code ],
-		LineItem: [
+	  SelectionFields: [ ID, price, currency_code ], //for search filter
+		LineItem: [ //colums headers
 			{Value: title},
 			{Value: author, Label:'{i18n>Author}'},
 			{Value: price},

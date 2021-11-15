@@ -1,8 +1,8 @@
 ### Browse Books (doesnt show full info about authors bc no @
-GET http://localhost:65315/browse/Books
+GET http://localhost:4004/browse/Books
 
-### Browse Books with expanded Authors
-GET http://localhost:65315/browse/Books?$expand=author
+### Browse Books with expanded Currency
+GET http://localhost:4004/browse/Books?$select=title,author&$expand=currency&sap-language=de
 
 ### Try to insert into Books. Fail because books are @readonly
 POST http://localhost:65315/browse/Books
@@ -12,3 +12,12 @@ Content-Type: application/json
     "title": "Anna Karenina",
     "stock": 10
 }
+
+### Service Document
+GET http://localhost:4004/browse
+
+### Metadate
+GET http://localhost:4004/browse/$metadata
+
+###
+GET http://localhost:4004/admin/Authors?&$select=name&$expand=books($select=title;$expand=currency)&$filter=ID eq 101

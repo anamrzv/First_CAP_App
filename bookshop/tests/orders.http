@@ -1,12 +1,12 @@
 ### List all Orders - deep read
-GET http://localhost:65315/admin/Orders?
+GET http://localhost:4004/admin/Orders?
 &$expand=Items
 
 ### Without Items
-GET http://localhost:65315/admin/Orders
+GET http://localhost:4004/admin/Orders
 
-### Submit Orders - deep insert
-POST http://localhost:65315/browse/Orders
+### Submit Orders - deep insert. Doesnt work with admin serv impl
+POST http://localhost:4004/browse/Orders
 Content-Type: application/json
 
 { "OrderNo":"1234", "Items":[
@@ -16,3 +16,6 @@ Content-Type: application/json
 
 ### Try to get the Orders. Fail bc Orders is @insertonly
 GET http://localhost:65315/browse/Orders
+
+### List Books with their current stocks
+GET http://localhost:4004/admin/Books?$select=ID,stock

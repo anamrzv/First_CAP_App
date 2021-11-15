@@ -9,7 +9,6 @@ entity Products : managed {
   stock    : Integer;
   price    : Decimal(9,2);
   currency : Currency;
-  category : Association to Categories;
 }
 
 entity Categories : CodeList {

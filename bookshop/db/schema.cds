@@ -10,7 +10,7 @@ entity Magazines : Products, additionalInfo {
   publisher : String(100);
 }
 
-@cds.autoexpose
+@cds.ayroexpose
 entity Authors : managed {
   key ID   : Integer;
   name     : String(111);

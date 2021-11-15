@@ -7,13 +7,16 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^5",
-    "express": "^4"
+    "express": "^4",
+    "supertest": "^6.1.6"
   },
   "devDependencies": {
+    "jest": "^27.3.1",
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -44,7 +47,6 @@
     "requires": {
       "db": {
         "kind": "sqlite",
-        "model": "*",
         "credentials": {
           "database": "bookshop.db"
         }

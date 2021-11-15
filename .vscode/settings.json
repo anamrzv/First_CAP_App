@@ -10,6 +10,12 @@
       "driver": "SQLite",
       "name": "bookshop2",
       "database": "${workspaceFolder:test}/bookshop/bookshop.db"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "new",
+      "database": "${workspaceFolder:test}/bookshop/bookshop.db"
     }
   ]
 }
