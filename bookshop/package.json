@@ -47,10 +47,12 @@
     "cds": {
         "requires": {
             "db": {
-                "kind": "sql",
-                "credentials": {
-                    "database": "bookshop.db"
-                }
+                "model": [
+                    "db",
+                    "srv",
+                    "app"
+                ],
+                "kind": "hana"
             }
         }
     }
