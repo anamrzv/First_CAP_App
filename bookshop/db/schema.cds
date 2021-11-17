@@ -6,11 +6,29 @@ entity Books : Products, additionalInfo {
   author   : Association to Authors;
 }
 
-entity Magazines : Products, additionalInfo {
-  publisher : String(100);
+@cds.persistence.exists
+entity Magazines {
+  key ID   : Integer;
+  title : String(111);
+  descr : String(1111);
+  publisher : String(50);
+  rating : Integer;
 }
 
-@cds.ayroexpose
+@cds.persistence.exists
+entity MagazinesDescr {
+  key id   : Integer;
+  magazine_descr : String(2000);
+}
+
+@cds.persistence.exists
+entity MagazinesInfo (REQ_RATING : Integer) {
+  key id   : Integer;
+  rating : Integer;
+  magazine_publisher_info : String;
+}
+
+@cds.autoexpose
 entity Authors : managed {
   key ID   : Integer;
   name     : String(111);

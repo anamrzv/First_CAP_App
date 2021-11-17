@@ -8,4 +8,10 @@ service CatalogService  {
 
   @requires_: 'authenticated-user'
   @insertonly entity Orders as projection on my.Orders;
+
+  entity Magazines as projection on my.Magazines;
+
+  entity MagazinesInfo (RATING : Integer) as select from my.MagazinesInfo(REQ_RATING: :RATING) {*};
+
+  entity MagazinesDescr as select from my.MagazinesDescr;
 }
