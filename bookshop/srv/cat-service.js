@@ -2,13 +2,28 @@ const cds = require('@sap/cds') //require cds framework
 const { Books } = cds.entities
 
 /** Service implementation for CatalogService */
-module.exports = cds.service.impl(srv=> {
-  srv.after ('READ', 'Books', each => each.stock > 111 && _addDiscount2(each,11))
-  srv.before ('CREATE', 'Orders', _reduceStock)
+module.exports = cds.service.impl(async function () {
+  const { Books, Orders, BusinessPartners } = this.entities
+  const bupaSrv = await cds.connect.to('API_BUSINESS_PARTNER')
+  this.after ('READ', 'Books', each => each.stock > 111 && _addDiscount2(each,11))
+  this.before ('CREATE', 'Orders', _reduceStock)
   //omit params -> for every entity
-  srv.before ('*', (req) => {
+  this.before ('*', (req) => {
     console.debug('>>>>>>', req.method, req.target.name)
   })
+  this.on('READ', BusinessPartners, req => bupaSrv.tx(req).run(req.query))
+
+/** Block orders if business partner is blocked */
+bupaSrv.on('BusinessPartner/Changed', async msg => {
+  console.log('>> Received BusinessPartner/Changed', msg.data)
+  const BUSINESSPARTNER = msg.data.KEY[0].BUSINESSPARTNER
+  const tx = cds.tx(msg)
+  const orders = await tx.run(SELECT('ID').from(Orders).where({ createdBy: BUSINESSPARTNER, status: 'processing' }))
+  if (!orders.length) return //do nothing
+  const businessPartner = await bupaSrv.tx(msg).run(SELECT.one('BusinessPartnerIsBlocked').from(BusinessPartners).where({ ID: BUSINESSPARTNER }))
+  if (!businessPartner || !businessPartner.BusinessPartnerIsBlocked) return
+  await Promise.all(orders.map(order => tx.run(UPDATE(Orders).where(order).set({ status: 'blocked' }))))
+  orders.forEach(order => this.emit('OrderBlocked', order) && console.log('>> Emitted OrderBlocked', order))
 })
 
 /** Add some discount for overstocked books */
@@ -30,3 +45,4 @@ async function _reduceStock (req) {
     )
   }))
 }
+})

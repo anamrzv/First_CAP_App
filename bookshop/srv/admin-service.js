@@ -1,10 +1,11 @@
 const cds = require('@sap/cds')
 
 /** Service implementation for AdminService */
-module.exports = cds.service.impl(srv => {
+module.exports = cds.service.impl(function() {
   const { OrderItems } = srv.entities ('sap.capire.bookshop')
 
-  srv.after (['READ','EDIT'], 'Orders', _calculateTotals)
+  this.before ('CREATE', 'Orders', _checkOrderCreateAuth)
+  this.after (['READ','EDIT'], 'Orders', _calculateTotals)
  
   // on-the-fly calculate the total Order price based on the OrderItems' netAmounts
   async function _calculateTotals (orders, req) {
@@ -17,6 +18,11 @@ module.exports = cds.service.impl(srv => {
     ) .then (items =>
       items.forEach (item => ordersByID [item.parent_ID] .total += item.netAmount)
     )
+  }
+
+  /** Check authorization  */
+  function _checkOrderCreateAuth (req) {
+    req.user.currency[0] === req.data.currency_code || req.reject(403)
   }
 
 })
