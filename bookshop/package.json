@@ -10,6 +10,7 @@
     "@sap/audit-logging": "^5.1.0",
     "@sap/cds": "^5.6.3",
     "@sap/cds-dk": "^4.6.3",
+    "@sap/generator-fiori": "^1.4.1",
     "@sap/xssec": "^3.2.10",
     "express": "^4",
     "hana-cli": "^2.202110.1",
@@ -28,7 +29,8 @@
     "build:mta": "mbt build --mtar=test_1.0.0.mtar",
     "deploy": "cf deploy mta_archives/test_1.0.0.mtar",
     "build:deploy": "run-s build:mta deploy",
-    "undeploy:cf": "cf undeploy test --delete-services --delete-service-keys --delete-service-brokers -f"
+    "undeploy:cf": "cf undeploy test --delete-services --delete-service-keys --delete-service-brokers -f",
+    "build:clean": "cds build/all --clean --production"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",

@@ -42,7 +42,7 @@ modules:
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: test-db
-    - name: bookshop-uaa
+    - name: third-uaa
 
 
 
@@ -59,17 +59,12 @@ resources:
      service-plan: hdi-shared
    properties:
      hdi-service-name: ${service-name}
-
+  
 # ------------------------------------------------------------
- - name: bookshop-uaa
+ - name: third-uaa
 # ------------------------------------------------------------
    type: org.cloudfoundry.managed-service
    parameters:
      service: xsuaa
      service-plan: application
      path: ./xs-security.json
-     config:
-       xsappname: test
-       tenant-mode: dedicated
-      
-

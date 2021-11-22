@@ -16,12 +16,6 @@ entity Magazines {
 }
 
 @cds.persistence.exists
-entity MagazinesDescr {
-  key id   : Integer;
-  magazine_descr : String(2000);
-}
-
-@cds.persistence.exists
 entity MagazinesInfo (REQ_RATING : Integer) {
   key id   : Integer;
   rating : Integer;

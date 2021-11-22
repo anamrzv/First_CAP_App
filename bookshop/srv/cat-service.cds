@@ -27,8 +27,6 @@ service CatalogService @(_requires: 'authenticated-user') {
   //works when we make request .../MagazinesInfo(4)
   entity MagazinesInfo (RATING : Integer) as select from my.MagazinesInfo(REQ_RATING: :RATING) {*};
 
-  entity MagazinesDescr as select from my.MagazinesDescr;
-
 
 
   //users can modify only their orders, see order with the same currency
