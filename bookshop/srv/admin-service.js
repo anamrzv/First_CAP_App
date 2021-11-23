@@ -2,7 +2,7 @@ const cds = require('@sap/cds')
 
 /** Service implementation for AdminService */
 module.exports = cds.service.impl(function() {
-  const { OrderItems } = srv.entities ('sap.capire.bookshop')
+  const { OrderItems } = this.entities ('sap.capire.bookshop')
 
   this.before ('CREATE', 'Orders', _checkOrderCreateAuth)
   this.after (['READ','EDIT'], 'Orders', _calculateTotals)

@@ -27,6 +27,8 @@ modules:
    requires:
     # Resources extracted from CAP configuration
     - name: test-db
+    - name: third-uaa
+    - name: dest0
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -42,7 +44,7 @@ modules:
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: test-db
-    - name: third-uaa
+    
 
 
 
@@ -68,3 +70,19 @@ resources:
      service: xsuaa
      service-plan: application
      path: ./xs-security.json
+     config:
+      xsappname: test
+      tenant-mode: dedicated
+
+# ------------------------------------------------------------
+ - name: dest0
+# ------------------------------------------------------------
+   type: org.cloudfoundry.existing-service #for already existing srv
+
+# ------------------------------------------------------------   
+ - name: dest1 #create non-manually
+# ------------------------------------------------------------
+   type: org.cloudfoundry.managed-service
+   parameters:
+     service-plan: lite
+     service: destination

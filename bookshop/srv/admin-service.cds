@@ -10,10 +10,6 @@ service AdminService @(_requires:'owner_role') {
 
 // Enable Fiori Draft for Orders
 annotate AdminService.Orders with @odata.draft.enabled;
-annotate AdminService.Books with @odata.draft.enabled;
-annotate AdminService.Authors with @odata.draft.enabled;
-annotate AdminService.Movies with @odata.draft.enabled;
-annotate AdminService.Magazines with @odata.draft.enabled;
 
 // Temporary workaround -> cap/issues#3121
 extend service AdminService with {
