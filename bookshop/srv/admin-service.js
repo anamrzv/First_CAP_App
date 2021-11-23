@@ -29,7 +29,5 @@ module.exports = cds.service.impl(function() {
 
   //hellooooo
 
-  //ll
-  
 
 })
