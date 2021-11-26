@@ -2,8 +2,14 @@ namespace sap.capire.bookshop; //helpful for reuse
 using { Currency, managed, cuid } from '@sap/cds/common';
 using { sap.capire.products.Products } from '../../products/db/schema';
 
-entity Books : Products, additionalInfo {
+entity Books {
+  key ID   : Integer;
+  title    : localized String(111);
+  descr    : localized String(1111);
   author   : Association to Authors;
+  stock    : Integer;
+  price    : Decimal(9,2);
+  currency : Currency;
 }
 
 @cds.persistence.exists

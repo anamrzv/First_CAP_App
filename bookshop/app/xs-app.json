@@ -1,6 +1,6 @@
 {
-    "routes": [{
+   "routes": [{
    "source": "^/(.*)",
    "destination": "test-srv"
     }]
-  }
+}

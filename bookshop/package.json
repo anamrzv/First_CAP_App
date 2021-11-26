@@ -11,11 +11,12 @@
   "dependencies": {
     "@sap/audit-logging": "^5.1.0",
     "@sap/cds": "5.4.3",
+    "@sap/hana-client": "^2.8.20",
     "@sap/xssec": "^3.2.1",
+    "axios": "^0.24.0",
     "express": "^4",
     "passport": "^0.5.0",
-    "supertest": "^6.1.6",
-    "@sap/hana-client": "^2.8.20"
+    "supertest": "^6.1.6"
   },
   "devDependencies": {
     "jest": "^27.3.1",
@@ -25,10 +26,10 @@
   "scripts": {
     "start": "cds run",
     "test": "jest",
-    "build:mta": "mbt build --mtar=test_1.0.0.mtar",
+    "build": "mbt build --mtar=test_1.0.0.mtar",
     "deploy": "cf deploy mta_archives/test_1.0.0.mtar",
-    "build:deploy": "run-s build:mta deploy",
-    "undeploy:cf": "cf undeploy test --delete-services --delete-service-keys --delete-service-brokers -f",
+    "build:deploy": "run-s build deploy",
+    "undeploy": "cf undeploy test --delete-services --delete-service-keys --delete-service-brokers -f",
     "build:clean": "cds build/all --clean --production"
   },
   "eslintConfig": {
