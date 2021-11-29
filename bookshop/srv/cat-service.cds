@@ -27,12 +27,4 @@ service CatalogService @(_requires: 'authenticated-user') {
   //works when we make request .../MagazinesInfo(4)
   entity MagazinesInfo (RATING : Integer) as select from my.MagazinesInfo(REQ_RATING: :RATING) {*};
 
-
-
-  //users can modify only their orders, see order with the same currency
-  annotate CatalogService.Orders with 
-     @(restrict: [
-        { grant: 'READ', to: 'authenticated-user', where: 'currency_code = $user.currency' } ,
-        { grant: 'UPDATE', to: 'authenticated-user', where: 'createdBy = $user'}
-  ]);
 }
