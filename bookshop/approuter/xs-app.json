@@ -5,5 +5,10 @@
 	      "source": "/catalog/(.*)",
 	      "destination": "srv-api",
 	      "csrfProtection": true
-    }]
+      },
+      {
+        "source": "(.*)",
+        "target": "/helloworldapprouter/$1",
+        "service": "html5-apps-repo-rt"
+      }]
 }
