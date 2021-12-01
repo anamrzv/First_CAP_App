@@ -2,8 +2,7 @@ using { sap.capire.bookshop as my } from '../db/schema';
 using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER.csn';
 
 @(path:'/browse')
-@impl: './cat-service.js' 
-service CatalogService @(_requires: 'authenticated-user') {
+service CatalogService {
 
   @readonly entity Books as SELECT from my.Books {*} excluding { createdBy, modifiedBy };
 

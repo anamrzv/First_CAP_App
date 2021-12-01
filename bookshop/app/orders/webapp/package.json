@@ -1,0 +1,9 @@
+{
+    "name": "orders",
+    "version": "0.0.1",
+    "scripts": {
+      "build": "npm run clean && npm run zip",
+      "zip": "npx bestzip orders-content.zip *",
+      "clean": "npx rimraf orders-content.zip dist"
+    }
+  }

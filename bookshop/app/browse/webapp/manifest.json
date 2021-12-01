@@ -3,6 +3,9 @@
   "sap.app": {
     "id": "bookshop",
     "type": "application",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
     "title": "Browse Books",
     "description": "Sample Application",
     "i18n": "i18n/i18n.properties",

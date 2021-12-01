@@ -52,10 +52,9 @@ modules:
    path: approuter 
    parameters:
      buildpack: nodejs_buildpack
-     disk-quota: 256M
-     memory: 256M
+     disk-quota: 1024M
+     memory: 1024M
    requires:
-    - name: dest0
     - name: third-uaa
     - name: my_html_repo_runtime
     - name: srv-api
@@ -65,11 +64,8 @@ modules:
        url: '~{srv-url}'
        forwardAuthToken: true
 
-
-
  # -------------------- WEBAPP DEPLOYER MODULE ------------------------ 
  - name: html5-deployer
- # ------------------------------------------------------------
    type: com.sap.application.content
    path: .
    requires:
@@ -111,7 +107,6 @@ modules:
        name: NewHTML5Module
        target-path: resources/
 
-#builds application
  - name: NewHTML5Module
    type: html5
    path: NewHTML5Module
@@ -121,7 +116,80 @@ modules:
      - npm run build
     supported-platforms: []
 
+ 
+ - name: admin-deployer
+   type: com.sap.application.content
+   path: .
+   requires:
+    - name: my_html_repo_host
+      parameters:
+       content-target: true
+   build-parameters:
+    build-result: resources
+    requires:
+     - artifacts:
+        - admin-content.zip
+       name: admin-module
+       target-path: resources/
 
+ - name: admin-module
+   type: html5
+   path: app/admin/webapp
+   build-parameters:
+    builder: custom
+    commands:
+     - npm run build
+    supported-platforms: []
+
+
+ - name: browse-deployer
+   type: com.sap.application.content
+   path: .
+   requires:
+    - name: my_html_repo_host
+      parameters:
+       content-target: true
+   build-parameters:
+    build-result: resources
+    requires:
+     - artifacts:
+        - browse-content.zip
+       name: browse-module
+       target-path: resources/
+
+ - name: browse-module
+   type: html5
+   path: app/browse/webapp
+   build-parameters:
+    builder: custom
+    commands:
+     - npm run build
+    supported-platforms: []
+
+
+ - name: orders-deployer
+   type: com.sap.application.content
+   path: .
+   requires:
+    - name: my_html_repo_host
+      parameters:
+       content-target: true
+   build-parameters:
+    build-result: resources
+    requires:
+     - artifacts:
+        - orders-content.zip
+       name: orders-module
+       target-path: resources/
+
+ - name: orders-module
+   type: html5
+   path: app/orders/webapp
+   build-parameters:
+    builder: custom
+    commands:
+     - npm run build
+    supported-platforms: []
 
 resources:
  # services extracted from CAP configuration

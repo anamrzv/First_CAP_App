@@ -2,13 +2,10 @@
   "welcomeFile": "/helloworld/index.html",
   "authenticationMethod": "none",
   "routes": [{
-	      "source": "/catalog/(.*)",
+	      "source": "^/browse/(.*)$",
 	      "destination": "srv-api",
-	      "csrfProtection": true
-      },
-      {
-        "source": "(.*)",
-        "target": "/helloworldapprouter/$1",
-        "service": "html5-apps-repo-rt"
+        "authenticationType": "none",
+	      "csrfProtection": false,
+        "cacheControl": "no-cache, no-store, must-revalidate"
       }]
 }
