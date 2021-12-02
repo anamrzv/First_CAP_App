@@ -52,8 +52,8 @@ modules:
    path: approuter 
    parameters:
      buildpack: nodejs_buildpack
-     disk-quota: 1024M
-     memory: 1024M
+     disk-quota: 512M
+     memory: 512M
    requires:
     - name: third-uaa
     - name: my_html_repo_runtime

@@ -1,9 +1,9 @@
 {
-    "welcomeFile": "/browse/webapp",
+    "welcomeFile": "fiori.html",
     "authenticationMethod": "none",
     "routes": [
       {
-        "source": "^(.*)$",
+        "source": "^(/.*)$",
         "target": "$1",
         "service": "html5-apps-repo-rt",
         "authenticationType": "none"
