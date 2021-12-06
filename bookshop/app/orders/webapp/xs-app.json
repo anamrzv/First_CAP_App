@@ -1,5 +1,5 @@
 {
-    "welcomeFile": "/orders/webapp",
+    "welcomeFile": "index.html",
     "authenticationMethod": "none",
     "routes": [
       {

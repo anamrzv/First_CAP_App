@@ -1,5 +1,5 @@
 {
-    "welcomeFile": "/admin/webapp",
+    "welcomeFile": "index.html",
     "authenticationMethod": "none",
     "routes": [
       {
