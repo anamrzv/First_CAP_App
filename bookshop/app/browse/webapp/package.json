@@ -4,6 +4,6 @@
     "scripts": {
       "build": "npm run clean && npm run zip",
       "zip": "npx bestzip browse-content.zip *",
-      "clean": "npx rimraf browse-content.zip dist"
+      "clean": "npx rimraf browse-content.zip"
     }
   }

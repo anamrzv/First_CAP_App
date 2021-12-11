@@ -6,245 +6,173 @@ _schema-version: '3.1'
 ID: test
 version: 1.0.0
 description: "A simple CAP project."
+
 parameters:
-  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+  enable-parallel-deployments: false
+  appname: unique-01daa
    
 build-parameters:
   before-all:
-   - builder: custom
-     commands:
-      - npm install --production
-      - npx -p @sap/cds-dk cds build --production
+    - builder: custom
+      commands:
+        - npm install --production
+        - npx -p @sap/cds-dk cds build --production
 
 modules:
  # --------------------- SERVER MODULE ------------------------
- - name: test-srv
- # ------------------------------------------------------------
-   type: nodejs
-   path: gen/srv
-   parameters:
-     buildpack: nodejs_buildpack
-   requires:
-    # Resources extracted from CAP configuration
+- name: test-srv
+  type: nodejs
+  path: gen/srv
+  parameters:
+    buildpack: nodejs_buildpack
+    host: ${appname}
+  requires:
     - name: test-db
     - name: third-uaa
-    - name: dest0
-   provides:
+    - name: launchpad-dest-srv
+  provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
         srv-url: ${default-url}
+  build-parameters:
+    ignore: [".env","./node_modules"]
 
  # -------------------- SIDECAR MODULE ------------------------
- - name: test-db-deployer
- # ------------------------------------------------------------
-   type: hdb
-   path: gen/db  
-   parameters:
-     buildpack: nodejs_buildpack
-   requires:
-    # 'hana' and 'xsuaa' resources extracted from CAP configuration
+- name: test-db-deployer
+  type: hdb
+  path: gen/db  
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    ignore: [".env","./node_modules"]
+  requires:
     - name: test-db
 
- # -------------------- APPROUTER MODULE ------------------------
- - name: approuter
- # ------------------------------------------------------------
-   type: approuter.nodejs
-   path: approuter 
-   parameters:
-     buildpack: nodejs_buildpack
-     disk-quota: 1024M
-     memory: 1024M
-   requires:
+ #-----------------Managed approuter
+- name: test-destination-content
+  type: com.sap.application.content
+  requires: 
+    - name: launchpad-dest-srv
+      parameters: 
+        content-target: true
+    - name: test_html_repo_host
+      parameters:
+        service-key:
+          name: test_html_repo_host-key
     - name: third-uaa
-    - name: my_html_repo_runtime
-    - name: srv-api
-      group: destinations
-      properties: 
-       name: srv-api
-       url: '~{srv-url}'
-       forwardAuthToken: true
-
- # -------------------- WEBAPP DEPLOYER MODULE ------------------------ 
- - name: html5-deployer
-   type: com.sap.application.content
-   path: .
-   requires:
-    - name: my_html_repo_host
       parameters:
-       content-target: true
-   build-parameters:
+        service-key:
+          name: third-uaa-key
+  parameters:
+    content:
+      subaccount:
+        destinations:
+          - Name: testy_app_test_html_repo_host
+            ServiceInstanceName: test-html5-app-host-service      
+            ServiceKeyName:  test_html_repo_host-key
+            sap.cloud.service: testy.app
+          - Authentication: OAuth2UserTokenExchange
+            Name: testy_app_third-uaa
+            ServiceInstanceName: test-xsuaa-service
+            ServiceKeyName: third-uaa-key
+            sap.cloud.service: testy.app
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+
+ # -------------------- APPROUTER MODULE ------------------------
+
+
+ # -------------------- WEBAPP DEPLOYER MODULE ------------------------
+
+- name: risklist-deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+    - name: test_html_repo_host
+      parameters:
+        content-target: true
+  build-parameters:
     build-result: resources
     requires:
-     - artifacts:
-        - HTML5Module-content.zip
-       name: HTML5Module
-       target-path: resources/
-
-#builds application
- - name: HTML5Module
-   type: html5
-   path: HTML5Module
-   build-parameters:
+      - artifacts:
+        - project1.zip
+        name: risk-list
+        target-path: resources/
+- name: risk-list
+  type: html5
+  path: app/project1
+  build-parameters:
+    build-result: dist
     builder: custom
     commands:
-     - npm run build
+      - npm run build:cf
     supported-platforms: []
 
- # -------------------- WEBAPP DEPLOYER MODULE ------------------------ 
- - name: second-html5-deployer
- # ------------------------------------------------------------
-   type: com.sap.application.content
-   path: .
-   requires:
-    - name: my_html_repo_host
-      parameters:
-       content-target: true
-   build-parameters:
-    build-result: resources
-    requires:
-     - artifacts:
-        - NewHTML5Module-content.zip
-       name: NewHTML5Module
-       target-path: resources/
-
- - name: NewHTML5Module
-   type: html5
-   path: NewHTML5Module
-   build-parameters:
-    builder: custom
-    commands:
-     - npm run build
-    supported-platforms: []
-
- 
- - name: admin-deployer
-   type: com.sap.application.content
-   path: .
-   requires:
-    - name: my_html_repo_host
-      parameters:
-       content-target: true
-   build-parameters:
-    build-result: resources
-    requires:
-     - artifacts:
-        - admin-content.zip
-       name: admin-module
-       target-path: resources/
-
- - name: admin-module
-   type: html5
-   path: app/admin/webapp
-   build-parameters:
-    builder: custom
-    commands:
-     - npm run build
-    supported-platforms: []
-
-
- - name: browse-deployer
-   type: com.sap.application.content
-   path: .
-   requires:
-    - name: my_html_repo_host
-      parameters:
-       content-target: true
-   build-parameters:
-    build-result: resources
-    requires:
-     - artifacts:
-        - browse-content.zip
-       name: browse-module
-       target-path: resources/
-
- - name: browse-module
-   type: html5
-   path: app/browse/webapp
-   build-parameters:
-    builder: custom
-    commands:
-     - npm run build
-    supported-platforms: []
-
-
- - name: orders-deployer
-   type: com.sap.application.content
-   path: .
-   requires:
-    - name: my_html_repo_host
-      parameters:
-       content-target: true
-   build-parameters:
-    build-result: resources
-    requires:
-     - artifacts:
-        - orders-content.zip
-       name: orders-module
-       target-path: resources/
-
- - name: orders-module
-   type: html5
-   path: app/orders/webapp
-   build-parameters:
-    builder: custom
-    commands:
-     - npm run build
-    supported-platforms: []
 
 resources:
- # services extracted from CAP configuration
- # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
-# ------------------------------------------------------------
- - name: test-db
-# ------------------------------------------------------------
-   type: com.sap.xs.hdi-container
-   parameters:
-     service: hana  # or 'hanatrial' on trial landscapes
-     service-plan: hdi-shared
-   properties:
-     hdi-service-name: ${service-name}
+- name: test-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana  # or 'hanatrial' on trial landscapes
+    service-plan: hdi-shared
+  properties:
+    hdi-service-name: ${service-name}
+
+- name: third-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: xsuaa
+    service-plan: application
+    service-name: test-xsuaa-service
+    path: ./xs-security.json
+# ------------------------------------------------------------   
+- name: launchpad-dest-srv 
+  type: org.cloudfoundry.managed-service
+  requires:
+    - name: srv-api
+  parameters:
+    service-plan: lite
+    service-name: launchpad-dest-srv
+    service: destination
+    config: 
+      HTML5Runtime_enabled: true
+      init_data:
+        subaccount:
+          existing_destinations_policy: update
+          destinations: 
+            - Name: basic-launchpad-srv
+              URL: ~{srv-api/srv-url}
+              Type: HTTP
+              ProxyType: Internet    
+              Authentication: NoAuthentication
+              HTML5.DynamicDestination: true
+              HTML5.ForwardAuthToken: true
+            - Name: ui5
+              URL: https://ui5.sap.com
+              Type: HTTP
+              ProxyType: Internet    
+              Authentication: NoAuthentication
+            - Name: hana-app-api
+              URL: https://${appname}.${default-domain}
+              Type: HTTP
+              ProxyType: Internet    
+              Authentication: NoAuthentication
+              HTML5.DynamicDestination: true
+              HTML5.ForwardAuthToken: true
+
+# ------------------------------------------------------------   
+- name: test_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service-plan: app-runtime
+    service: html5-apps-repo
   
-# ------------------------------------------------------------
- - name: third-uaa
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service: xsuaa
-     service-plan: application
-     path: ./xs-security.json
-     config:
-      xsappname: test
-      tenant-mode: dedicated
+- name: test_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service-plan: app-host
+    service: html5-apps-repo
+    service-name: test-html5-app-host-service
 
-# ------------------------------------------------------------
- - name: dest0
-# ------------------------------------------------------------
-   type: org.cloudfoundry.existing-service #for already existing srv
-
-# ------------------------------------------------------------   
- - name: dest1 #create non-manually
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service-plan: lite
-     service: destination
-
-
-
-
-
-# ------------------------------------------------------------   
- - name: my_html_repo_runtime
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service-plan: app-runtime
-     service: html5-apps-repo
-
-# ------------------------------------------------------------   
- - name: my_html_repo_host
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service-plan: app-host
-     service: html5-apps-repo

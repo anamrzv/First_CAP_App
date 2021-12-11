@@ -11,7 +11,7 @@
         "i18n": "i18n/i18n.properties",
         "dataSources": {
             "AdminService": {
-                "uri": "/adminapi/",
+                "uri": "adminapi/",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "4.0"
@@ -127,5 +127,9 @@
     "sap.fiori": {
         "registrationIds": [],
         "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "testy.app"
     }
 }

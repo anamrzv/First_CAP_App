@@ -4,6 +4,6 @@
     "scripts": {
       "build": "npm run clean && npm run zip",
       "zip": "npx bestzip admin-content.zip *",
-      "clean": "npx rimraf admin-content.zip dist"
+      "clean": "npx rimraf admin-content.zip"
     }
   }
