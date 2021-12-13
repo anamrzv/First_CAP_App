@@ -140,7 +140,7 @@ resources:
         subaccount:
           existing_destinations_policy: update
           destinations: 
-            - Name: basic-launchpad-srv
+            - Name: launchpad-dest-srv
               URL: ~{srv-api/srv-url}
               Type: HTTP
               ProxyType: Internet    
