@@ -10,7 +10,6 @@ description: "A simple CAP project."
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: false
-  appname: unique-01daa
    
 build-parameters:
   before-all:
@@ -26,7 +25,6 @@ modules:
   path: gen/srv
   parameters:
     buildpack: nodejs_buildpack
-    host: ${appname}
   requires:
     - name: test-db
     - name: third-uaa
@@ -154,13 +152,6 @@ resources:
               Type: HTTP
               ProxyType: Internet    
               Authentication: NoAuthentication
-            - Name: hana-app-api
-              URL: https://${appname}.${default-domain}
-              Type: HTTP
-              ProxyType: Internet    
-              Authentication: NoAuthentication
-              HTML5.DynamicDestination: true
-              HTML5.ForwardAuthToken: true
 
 # ------------------------------------------------------------   
 - name: test_html_repo_runtime

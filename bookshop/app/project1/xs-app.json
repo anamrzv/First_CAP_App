@@ -3,9 +3,9 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "/catalog/(.*)",
-      "destination": "hana-app-api",
-      "csrfProtection": true,
+      "source": "/browse/(.*)",
+      "service": "launchpad-dest-srv",
+      "csrfProtection": false,
       "authenticationType": "xsuaa"
     },
     {

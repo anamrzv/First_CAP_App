@@ -6,7 +6,11 @@
         "i18n": {
             "uri": "i18n/i18n.properties",
             "bundleName": "project1.i18n.i18n",
-            "supportedLocales": ["en","de","ru"],
+            "supportedLocales": [
+                "en",
+                "de",
+                "ru"
+            ],
             "fallbackLocale": "en"
         },
         "applicationVersion": {
@@ -79,18 +83,26 @@
                 "settings": {
                     "uri": "i18n/i18n.properties",
                     "bundleName": "project1.i18n.i18n",
-                    "supportedLocales": ["en", "de", "ru"],
+                    "supportedLocales": [
+                        "en",
+                        "de",
+                        "ru"
+                    ],
                     "fallbackLocale": "en"
-                  }
+                }
             },
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "uri": "i18n/i18n.properties",
                     "bundleName": "project1.i18n.i18n",
-                    "supportedLocales": ["en", "de", "ru"],
+                    "supportedLocales": [
+                        "en",
+                        "de",
+                        "ru"
+                    ],
                     "fallbackLocale": "en"
-                  }
+                }
             },
             "": {
                 "dataSource": "mainService",
@@ -170,5 +182,4 @@
         "public": true,
         "service": "testy.app"
     }
-
 }
