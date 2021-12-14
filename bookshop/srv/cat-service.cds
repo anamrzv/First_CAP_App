@@ -1,5 +1,4 @@
 using { sap.capire.bookshop as my } from '../db/schema';
-using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER.csn';
 
 @(path:'/browse')
 service CatalogService {
@@ -8,13 +7,6 @@ service CatalogService {
 
   @insertonly entity Orders as projection on my.Orders;
 
-  @readonly entity BusinessPartners as projection on external.A_BusinessPartner {
-    key BusinessPartner as ID,
-    FirstName,
-    MiddleName,
-    LastName,
-    BusinessPartnerIsBlocked
-  };
 
   //our own event for remote service. it is used in cat-service.js
   event OrderBlocked {

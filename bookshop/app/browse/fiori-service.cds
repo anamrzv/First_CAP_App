@@ -9,6 +9,7 @@ annotate CatalogService.Books with {
     descr       @title: 'Description:)';
     price        @title: 'Price:(';
     currency      @title: 'Currency:)';
+	author          @title: 'Author';
 }
 
 annotate CatalogService.Books with @(
@@ -17,12 +18,12 @@ annotate CatalogService.Books with @(
 		TypeName: 'Book',
 		TypeNamePlural: 'Books',
 		Title: {
-			$Tyoe: 'UI.DataField',
+			$Type: 'UI.DataField',
 			Value: title
 		},
   		Description: { //subtitle
 			$Type: 'UI.DataField',
-			Value: author
+			Value: descr
 		}
   	},
 		HeaderFacets: [
@@ -56,7 +57,7 @@ annotate CatalogService.Books with @(
 	  SelectionFields: [ ID, price, currency_code ], //for search filter. defines which of the properties are exposed as search fields in the header bar above the list
 		LineItem: [ //The columns and their order
 			{Value: title},
-			{Value: author, Label:'{i18n>Author}'},
+			{Value: descr},
 			{Value: price},
 			{Value: currency.symbol, Label:' '},
 		]

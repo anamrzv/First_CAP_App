@@ -27,8 +27,8 @@ modules:
     buildpack: nodejs_buildpack
   requires:
     - name: test-db
-    - name: third-uaa
-    - name: launchpad-dest-srv
+    - name: test-uaa
+    - name: test-destination
   provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -51,29 +51,29 @@ modules:
 - name: test-destination-content
   type: com.sap.application.content
   requires: 
-    - name: launchpad-dest-srv
+    - name: test-destination
       parameters: 
         content-target: true
-    - name: test_html_repo_host
+    - name: test-html5-repo-host
       parameters:
         service-key:
-          name: test_html_repo_host-key
-    - name: third-uaa
+          name: test-html5-repo-host-key
+    - name: test-uaa
       parameters:
         service-key:
-          name: third-uaa-key
+          name: test-uaa-key
   parameters:
     content:
       subaccount:
         destinations:
-          - Name: testy_app_test_html_repo_host
-            ServiceInstanceName: test-html5-app-host-service      
-            ServiceKeyName:  test_html_repo_host-key
+          - Name: test-destination-html5
+            ServiceInstanceName: test-html5-repo-host     
+            ServiceKeyName:  test-html5-repo-host-key
             sap.cloud.service: testy.app
           - Authentication: OAuth2UserTokenExchange
-            Name: testy_app_third-uaa
-            ServiceInstanceName: test-xsuaa-service
-            ServiceKeyName: third-uaa-key
+            Name: test-destination-uaa
+            ServiceInstanceName: test-uaa
+            ServiceKeyName: test-uaa-key
             sap.cloud.service: testy.app
         existing_destinations_policy: update
   build-parameters:
@@ -84,11 +84,11 @@ modules:
 
  # -------------------- WEBAPP DEPLOYER MODULE ------------------------
 
-- name: risklist-deployer
+- name: project1-deployer
   type: com.sap.application.content
   path: .
   requires:
-    - name: test_html_repo_host
+    - name: test-html5-repo-host
       parameters:
         content-target: true
   build-parameters:
@@ -96,9 +96,9 @@ modules:
     requires:
       - artifacts:
         - project1.zip
-        name: risk-list
+        name: project1
         target-path: resources/
-- name: risk-list
+- name: project1
   type: html5
   path: app/project1
   build-parameters:
@@ -118,21 +118,19 @@ resources:
   properties:
     hdi-service-name: ${service-name}
 
-- name: third-uaa
+- name: test-uaa
   type: org.cloudfoundry.managed-service
   parameters:
     service: xsuaa
     service-plan: application
-    service-name: test-xsuaa-service
     path: ./xs-security.json
 # ------------------------------------------------------------   
-- name: launchpad-dest-srv 
+- name: test-destination 
   type: org.cloudfoundry.managed-service
   requires:
     - name: srv-api
   parameters:
     service-plan: lite
-    service-name: launchpad-dest-srv
     service: destination
     config: 
       HTML5Runtime_enabled: true
@@ -140,7 +138,7 @@ resources:
         subaccount:
           existing_destinations_policy: update
           destinations: 
-            - Name: launchpad-dest-srv
+            - Name: test-destination
               URL: ~{srv-api/srv-url}
               Type: HTTP
               ProxyType: Internet    
@@ -154,16 +152,15 @@ resources:
               Authentication: NoAuthentication
 
 # ------------------------------------------------------------   
-- name: test_html_repo_runtime
+- name: test-html5-repo-runtime
   type: org.cloudfoundry.managed-service
   parameters:
     service-plan: app-runtime
     service: html5-apps-repo
   
-- name: test_html_repo_host
+- name: test-html5-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
     service-plan: app-host
     service: html5-apps-repo
-    service-name: test-html5-app-host-service
 

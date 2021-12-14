@@ -16,8 +16,8 @@
         "applicationVersion": {
             "version": "1.0.0"
         },
-        "title": "{{appTitle}}",
-        "description": "{{appDescription}}",
+        "title": "Browse Books",
+        "description": "App for browsig books",
         "dataSources": {
             "mainService": {
                 "uri": "browse/",
@@ -30,8 +30,8 @@
         "offline": false,
         "resources": "resources.json",
         "sourceTemplate": {
-            "id": "ui5template.fiorielements.v4.lrop",
-            "version": "1.0.0"
+            "id": "ui5template.smartTemplate",
+            "version": "1.40.12"
         },
         "crossNavigation": {
             "inbounds": {
@@ -41,7 +41,7 @@
                         "additionalParameters": "allowed"
                     },
                     "semanticObject": "Book",
-                    "action": "Display",
+                    "action": "display",
                     "title": "{{flpTitle}}",
                     "subTitle": "{{flpSubtitle}}",
                     "icon": ""
@@ -111,7 +111,12 @@
                     "synchronizationMode": "None",
                     "operationMode": "Server",
                     "autoExpandSelect": true,
-                    "earlyRequests": true
+                    "earlyRequests": true,
+                    "groupProperties": {
+                        "default": {
+                            "submit": "Auto"
+                        }
+                    }
                 }
             }
         },
@@ -124,8 +129,13 @@
                 },
                 {
                     "pattern": "Books({key}):?query:",
-                    "name": "BooksObjectPage",
-                    "target": "BooksObjectPage"
+                    "name": "BooksDetails",
+                    "target": "BooksDetails"
+                },
+                {
+                    "pattern": "Books({key}/author({key2}):?query:",
+                    "name": "AuthorsDetails",
+                    "target": "AuthorsDetails"
                 }
             ],
             "targets": {
@@ -140,21 +150,38 @@
                             "navigation": {
                                 "Books": {
                                     "detail": {
-                                        "route": "BooksObjectPage"
+                                        "route": "BooksDetails"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                "BooksObjectPage": {
+                "BooksDetails": {
                     "type": "Component",
-                    "id": "BooksObjectPage",
+                    "id": "BooksDetailsPage",
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
                         "settings": {
                             "editableHeaderContent": false,
-                            "entitySet": "Books"
+                            "entitySet": "Books",
+                            "navigation": {
+                                "Authors": {
+                                    "detail": {
+                                        "route": "AuthorsDetails"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "AuthorsDetails": {
+                    "type": "Component",
+                    "id": "AuthorsDetailsList",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Authors"
                         }
                     }
                 }

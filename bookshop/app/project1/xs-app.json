@@ -3,8 +3,8 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "/browse/(.*)",
-      "service": "launchpad-dest-srv",
+      "source": "^/browse/(.*)$",
+      "destination": "launchpad-dest-srv",
       "csrfProtection": false,
       "authenticationType": "xsuaa"
     },

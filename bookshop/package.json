@@ -83,13 +83,6 @@
       "uaa": {
         "kind": "xsuaa"
       },
-      "API_BUSINESS_PARTNER": {
-        "kind": "odata-v2",
-        "model": "srv\\external\\API_BUSINESS_PARTNER",
-        "credentials": {
-          "destination": "demodest"
-        }
-      },
       "messaging": {
         "kind": "enterprise-messaging"
       }
