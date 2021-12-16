@@ -4,7 +4,7 @@
   "routes": [
     {
       "source": "^/browse/(.*)$",
-      "destination": "launchpad-dest-srv",
+      "destination": "test-destination",
       "csrfProtection": false,
       "authenticationType": "xsuaa"
     },

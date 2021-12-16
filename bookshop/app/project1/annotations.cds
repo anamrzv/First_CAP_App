@@ -1,1 +1,1 @@
-using CatalogService as service from '../../srv/cat-service';
+using CatalogService as mainService from '../../srv/cat-service';
