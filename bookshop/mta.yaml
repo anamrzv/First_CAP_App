@@ -27,8 +27,8 @@ modules:
    requires:
     # Resources extracted from CAP configuration
     - name: test-db
-    - name: third-uaa
-    - name: dest0
+    - name: test-uaa
+    - name: test-destination
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -45,8 +45,24 @@ modules:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: test-db
     
-
-
+# -------------------- APPROUTER MODULE ------------------------
+ - name: approuter
+ # ------------------------------------------------------------
+   type: approuter.nodejs
+   path: approuter 
+   parameters:
+     buildpack: nodejs_buildpack
+     disk-quota: 1024M
+     memory: 1024M
+   requires:
+    - name: test-uaa
+    - name: test-destination
+    - name: srv-api
+      group: destinations
+      properties: 
+       name: srv-api
+       url: '~{srv-url}'
+       forwardAuthToken: true
 
 
 resources:
@@ -63,7 +79,7 @@ resources:
      hdi-service-name: ${service-name}
   
 # ------------------------------------------------------------
- - name: third-uaa
+ - name: test-uaa
 # ------------------------------------------------------------
    type: org.cloudfoundry.managed-service
    parameters:
@@ -75,14 +91,6 @@ resources:
       tenant-mode: dedicated
 
 # ------------------------------------------------------------
- - name: dest0
+ - name: test-destination
 # ------------------------------------------------------------
    type: org.cloudfoundry.existing-service #for already existing srv
-
-# ------------------------------------------------------------   
- - name: dest1 #create non-manually
-# ------------------------------------------------------------
-   type: org.cloudfoundry.managed-service
-   parameters:
-     service-plan: lite
-     service: destination

@@ -15,7 +15,8 @@
     "express": "^4",
     "passport": "^0.5.0",
     "supertest": "^6.1.6",
-    "@sap/hana-client": "^2.8.20"
+    "@sap/hana-client": "^2.8.20",
+    "sap-cf-mailer": "^0.0.5"
   },
   "devDependencies": {
     "jest": "^27.3.1",

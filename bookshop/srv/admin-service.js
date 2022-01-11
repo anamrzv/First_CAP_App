@@ -1,5 +1,6 @@
 const cds = require('@sap/cds')
 
+
 /** Service implementation for AdminService */
 module.exports = cds.service.impl(function() {
   const { OrderItems } = this.entities ('sap.capire.bookshop')
@@ -24,10 +25,5 @@ module.exports = cds.service.impl(function() {
   function _checkOrderCreateAuth (req) {
     req.user.currency[0] === req.data.currency_code || req.reject(403)
   }
-
-  //pretend to have some changes.....
-
-  //hellooooo
-
 
 })
