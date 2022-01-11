@@ -29,6 +29,9 @@
             data-sap-ui-theme="sap_fiori_3"
             data-sap-ui-frameOptions="allow"
             data-sap-ui-bindingSyntax="complex"
+            data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+            data-sap-ui-async="true"
+            data-sap-ui-resourceroots='{"project1": "./"}'
         ></script>
         <script>
             sap.ui.getCore().attachInit(function() {
@@ -36,5 +39,9 @@
             });
         </script>
     </head>
-    <body class="sapUiBody" id="content"></body>
+    <body class="sapUiBody" id="content">
+        <div data-sap-ui-component data-name="project1" 
+           data-id="container" data-settings='{"id" : "project1"}'>
+        </div>
+    </body>
 </html>

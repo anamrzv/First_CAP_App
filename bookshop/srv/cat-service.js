@@ -1,9 +1,9 @@
 const cds = require('@sap/cds') //require cds framework
-const { Books } = cds.entities
+const { Books } = cds.entities //импорт сервиса целиком
 
 /** Service implementation for CatalogService */
 module.exports = cds.service.impl(async function () {
-  const { Books, Orders } = this.entities
+  const { Books, Orders } = this.entities //импорт entities из сервиса 
   this.after ('READ', 'Books', each => each.stock > 111 && _addDiscount2(each,11))
   this.before ('CREATE', 'Orders', _reduceStock)
   //omit params -> for every entity
