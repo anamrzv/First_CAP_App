@@ -14,7 +14,7 @@ module.exports = cds.service.impl(async function () {
   const bupaSrv = await cds.connect.to('API_BUSINESS_PARTNER')
 
   //sending mail
-  this.on('READ', async (req, res) => sendMail(req,res))
+  this.on('READ', async (req) => sendMail(req))
 
 
   this.after('READ', 'Books', each => each.stock > 111 && _addDiscount2(each, 11))
@@ -59,7 +59,7 @@ module.exports = cds.service.impl(async function () {
   }
 
   //has error TypeError: res.send is not a function
-  async function sendMail(req, res) {
+  async function sendMail(req) {
     console.debug('>>>>>> MAIL', req.method, req.target.name)
     const result = await transporter.sendMail({
       to: 'someoneimportant@sap.com',
