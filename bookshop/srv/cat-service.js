@@ -14,7 +14,7 @@ module.exports = cds.service.impl(async function () {
   const bupaSrv = await cds.connect.to('API_BUSINESS_PARTNER')
 
   //sending mail
-  this.on('*', async (req, res) => sendMail(req, res) )
+  this.on('READ', async (req, res) => sendMail(req,res))
 
 
   this.after('READ', 'Books', each => each.stock > 111 && _addDiscount2(each, 11))
@@ -63,10 +63,9 @@ module.exports = cds.service.impl(async function () {
     console.debug('>>>>>> MAIL', req.method, req.target.name)
     const result = await transporter.sendMail({
       to: 'someoneimportant@sap.com',
-      subject: `This is the mail subject`,
-      text: `You tried to register2`
+      subject: `Hello:)`,
+      text: `You tried to do something`
     });
-    res.send(result);
   }
-  
+
 })
